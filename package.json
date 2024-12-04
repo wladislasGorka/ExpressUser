@@ -1,0 +1,22 @@
+{
+  "name": "expressuser",
+  "version": "1.0.0",
+  "description": "testNodeJsExpress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wladislasGorka/ExpressUser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wladislasGorka/ExpressUser/issues"
+  },
+  "homepage": "https://github.com/wladislasGorka/ExpressUser#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
