@@ -1,4 +1,4 @@
 function userView(user){
-    return(`userId: ${user.id}, userName: ${user.name}`);
+    return ( `userId: ${user.id}, userName: ${user.name}`);
 }
-module.exports=userView();
+module.exports=userView;
