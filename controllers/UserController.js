@@ -1,8 +1,8 @@
 const User = require("../models/User");
-const userView = require("../views/UserView");
 const db = require("../db/db");
 const bcrypt = require("bcrypt");
 const path = require('path');
+const session = require('express-session');
 
 function getUser(req, res){
     const user = new User(1,"Wladislas");
@@ -18,8 +18,7 @@ function showUser(req, res){
         }else{
             if(row){
                 const user= new User(row.username,row.password);
-                //res.end (userView(userId,user));
-                res.render('UserView', {title: 'User', user: user});
+                res.render('UserView', {title: 'User', loggedIn: req.session.loggedIn, user: user});
             }else{
                 console.error('User introuvable');
                 res.send('ERROR');
@@ -32,7 +31,7 @@ function showUser(req, res){
 function showLogin(req, res){
     //res.send(loginView());
     //res.sendFile(path.join(__dirname, '../views/LoginView.html'));
-    res.render('LoginView', {title: 'Login'});
+    res.render('LoginView', {title: 'Login',loggedIn: req.session.loggedIn});
 }
 
 function traiteLogin(req, res){
@@ -52,7 +51,12 @@ function traiteLogin(req, res){
                             res.send("ERROR");
                         } else if (result) {
                             console.log('Connexion réussie:', row);
-                            res.redirect(`/user/${row.id}`);
+                            req.session.userId = row.id;
+                            req.session.loggedIn = true;
+                            res.locals.loggedIn = req.session.loggedIn;
+                            //console.log(res.locals.loggedIn);
+                            //console.log(req.session);
+                            res.redirect(`/user`);
                         } else {
                             console.log('Mot de passe incorrect');
                             res.send("Mot de passe incorrect");
@@ -69,7 +73,7 @@ function traiteLogin(req, res){
 
 function showRegister(req, res){
     //res.send(registerView());
-    res.render('RegisterView', {title: 'Register'});
+    res.render('RegisterView', {title: 'Register',loggedIn: req.session.loggedIn});
 }
 
 function traiteRegister(req, res){
@@ -105,5 +109,18 @@ function traiteRegister(req, res){
     })
 }
 
+function traiteLogout(req, res){
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+              res.status(400).send('Unable to log out');
+            } else {
+              console.log('Logout successful');
+              res.render('index', {title: 'Home'});
+            }
+        });
+    }
+}
 
-module.exports={getUser,showLogin,traiteLogin,showRegister,traiteRegister,showUser};
+
+module.exports={getUser,showLogin,traiteLogin,showRegister,traiteRegister,showUser,traiteLogout};
