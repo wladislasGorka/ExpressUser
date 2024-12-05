@@ -1,13 +1,7 @@
 const User = require("../models/User");
 const db = require("../db/db");
 const bcrypt = require("bcrypt");
-const path = require('path');
-const session = require('express-session');
 
-function getUser(req, res){
-    const user = new User(1,"Wladislas");
-    res.end (userView(user));
-}
 function showUser(req, res){
     const userId = req.params.id;
     const query = 'SELECT * FROM users WHERE id=?';
@@ -100,8 +94,8 @@ function traiteRegister(req, res){
                         console.error('register échoué: ',err.message);
                         res.send("ERROR");
                     }else{
-                        console.log("user access: ",newUser);
-                        res.send("SUCCESS");
+                        console.log("user creation: ",newUser);
+                        res.redirect(`/login`);
                     }
                 }
             )
@@ -116,11 +110,12 @@ function traiteLogout(req, res){
               res.status(400).send('Unable to log out');
             } else {
               console.log('Logout successful');
-              res.render('index', {title: 'Home'});
+              //res.render('index', {title: 'Home'});
+              res.redirect(`/`);
             }
         });
     }
 }
 
 
-module.exports={getUser,showLogin,traiteLogin,showRegister,traiteRegister,showUser,traiteLogout};
+module.exports={showLogin,traiteLogin,showRegister,traiteRegister,showUser,traiteLogout};

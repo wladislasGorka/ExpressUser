@@ -1,5 +1,5 @@
 const express = require('express');
-const {getUser,showLogin,traiteLogin,showRegister,traiteRegister,showUser,traiteLogout} = require('./controllers/UserController');
+const {showLogin,traiteLogin,showRegister,traiteRegister,showUser,traiteLogout} = require('./controllers/UserController');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 
