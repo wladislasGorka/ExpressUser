@@ -1,9 +1,8 @@
 const User = require("../models/User");
 const userView = require("../views/UserView");
-const loginView = require("../views/LoginView");
-const registerView = require("../views/RegisterView");
 const db = require("../db/db");
 const bcrypt = require("bcrypt");
+const path = require('path');
 
 function getUser(req, res){
     const user = new User(1,"Wladislas");
@@ -19,7 +18,8 @@ function showUser(req, res){
         }else{
             if(row){
                 const user= new User(row.username,row.password);
-                res.end (userView(userId,user));
+                //res.end (userView(userId,user));
+                res.render('UserView', {title: 'User', user: user});
             }else{
                 console.error('User introuvable');
                 res.send('ERROR');
@@ -30,7 +30,9 @@ function showUser(req, res){
 }
 
 function showLogin(req, res){
-    res.send(loginView());
+    //res.send(loginView());
+    //res.sendFile(path.join(__dirname, '../views/LoginView.html'));
+    res.render('LoginView', {title: 'Login'});
 }
 
 function traiteLogin(req, res){
@@ -66,7 +68,8 @@ function traiteLogin(req, res){
 }
 
 function showRegister(req, res){
-    res.send(registerView());
+    //res.send(registerView());
+    res.render('RegisterView', {title: 'Register'});
 }
 
 function traiteRegister(req, res){
