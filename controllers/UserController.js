@@ -3,6 +3,7 @@ const userView = require("../views/UserView");
 const loginView = require("../views/LoginView");
 const registerView = require("../views/RegisterView");
 const db = require("../db/db");
+const bcrypt = require("bcrypt");
 
 function getUser(req, res){
     const user = new User(1,"Wladislas");
@@ -15,13 +16,34 @@ function showLogin(req, res){
 
 function traiteLogin(req, res){
     console.log(req.body);
-    console.log(req.cookies.users.name);
     const {nom,password} = req.body;
-    if(nom==="admin" && password==="password"){
-        res.send('Bienvenue');
-    }else{
-        res.send('Error');
-    }
+    const query = 'SELECT * FROM users WHERE username=?';
+    db.get(query,[nom], 
+        function (err,row){
+            if(err){
+                console.error('login échoué: ',err.message);
+                res.send("ERROR");
+            }else{
+                if(row){
+                    bcrypt.compare(password,row.password, (err,result)=>{
+                        if (err) {
+                            console.error('Erreur de comparaison:', err.message);
+                            res.send("ERROR");
+                        } else if (result) {
+                            console.log('Connexion réussie:', row);
+                            res.send("SUCCESS LOGIN");
+                        } else {
+                            console.log('Mot de passe incorrect');
+                            res.send("Mot de passe incorrect");
+                        }
+                    })
+                }else{
+                    console.log(row);
+                    res.send("Register fisrt");
+                }                
+            }
+        }
+    )
 }
 
 function showRegister(req, res){
@@ -30,20 +52,35 @@ function showRegister(req, res){
 
 function traiteRegister(req, res){
     const {nom,password} = req.body;
-    const newUser = new User(nom,password);
-    //console.log(newUser);
-    const query = 'INSERT INTO users (username,password) VALUES (?, ?)';
-    db.run(query,[newUser.name,newUser.password], 
-        function (err){
-            if(err){
-                console.error('register échoué: ',err.message);
-                res.send("ERROR");
-            }else{
-                console.log("user access: ",newUser);
-                res.send("SUCCESS");
-            }
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            console.error('Erreur de génération du sel:', err.message);
+            res.send("ERROR");
+            return;
         }
-    )    
+        // Hacher le mot de passe
+        bcrypt.hash(password, salt, (err, hashedPassword) => {
+            if (err) {
+                console.error('Erreur de hachage:', err.message);
+                res.send("ERROR");
+                return;
+            }
+            const newUser = new User(nom,hashedPassword);
+            //console.log(newUser);
+            const query = 'INSERT INTO users (username,password) VALUES (?, ?)';
+            db.run(query,[newUser.name,newUser.password], 
+                function (err){
+                    if(err){
+                        console.error('register échoué: ',err.message);
+                        res.send("ERROR");
+                    }else{
+                        console.log("user access: ",newUser);
+                        res.send("SUCCESS");
+                    }
+                }
+            )
+        })
+    })
 }
 
 
