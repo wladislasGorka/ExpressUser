@@ -1,5 +1,5 @@
 const express = require('express');
-const {getUser,showLogin,traiteLogin,showRegister,traiteRegister} = require('./controllers/UserController');
+const {getUser,showLogin,traiteLogin,showRegister,traiteRegister,showUser} = require('./controllers/UserController');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
@@ -16,6 +16,8 @@ app.get("/", (req,res)=>{
 app.get("/user", (req,res)=>{
     getUser(req,res);
 })
+app.get("/user/:id", showUser)
+
 
 app.get("/login", showLogin)
 

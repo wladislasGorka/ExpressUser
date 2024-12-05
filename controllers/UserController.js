@@ -9,13 +9,32 @@ function getUser(req, res){
     const user = new User(1,"Wladislas");
     res.end (userView(user));
 }
+function showUser(req, res){
+    const userId = req.params.id;
+    const query = 'SELECT * FROM users WHERE id=?';
+    db.get(query,[userId],function (err,row){
+        if(err){
+            console.error('Erreur showUser');
+            res.send('ERROR');
+        }else{
+            if(row){
+                const user= new User(row.username,row.password);
+                res.end (userView(userId,user));
+            }else{
+                console.error('User introuvable');
+                res.send('ERROR');
+            }
+        }
+    })
+    
+}
 
 function showLogin(req, res){
     res.send(loginView());
 }
 
 function traiteLogin(req, res){
-    console.log(req.body);
+    //console.log(req.body);
     const {nom,password} = req.body;
     const query = 'SELECT * FROM users WHERE username=?';
     db.get(query,[nom], 
@@ -31,7 +50,7 @@ function traiteLogin(req, res){
                             res.send("ERROR");
                         } else if (result) {
                             console.log('Connexion réussie:', row);
-                            res.send("SUCCESS LOGIN");
+                            res.redirect(`/user/${row.id}`);
                         } else {
                             console.log('Mot de passe incorrect');
                             res.send("Mot de passe incorrect");
@@ -84,4 +103,4 @@ function traiteRegister(req, res){
 }
 
 
-module.exports={getUser,showLogin,traiteLogin,showRegister,traiteRegister};
+module.exports={getUser,showLogin,traiteLogin,showRegister,traiteRegister,showUser};
