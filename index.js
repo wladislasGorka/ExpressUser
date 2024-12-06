@@ -1,16 +1,23 @@
 const express = require('express');
-const {showLogin,traiteLogin,showRegister,traiteRegister,showUser,traiteLogout} = require('./controllers/UserController');
-const bodyParser = require('body-parser');
 const session = require('express-session');
+
+const bodyParser = require('body-parser');
+
+// Routes
+const registerRoutes = require('./routes/registerRoutes');
+const logRoutes = require('./routes/logRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 const port = 3000;
 
+// View engine
 app.set('view engine','ejs');
-
 app.use(express.static('public'));
+
 app.use(bodyParser.urlencoded({extended:true}))
 
+// Session config
 app.use(session({
     secret: 'secret_de_session',
     name:'uniqueSessionID',
@@ -25,43 +32,21 @@ app.use((req, res, next) => {
     next();
 });
 
+// HOME
 app.get("/", (req,res)=>{
     //res.send('Hello');
     res.render('index', {title: 'Home', loggedIn: req.session.loggedIn});
 })
 
-app.get("/user", (req,res)=>{
-    if(req.session.loggedIn){
-        res.redirect(`/user/${req.session.userId}`);
-    }else{
-        res.redirect('/login');
-    }
-})
-app.get("/user/:id", (req,res)=>{
-    if(req.session.loggedIn && req.session.userId==req.params.id){
-        showUser(req,res);
-    }else if(req.session.loggedIn){
-        res.redirect(`/user/${req.session.userId}`);
-    }else{
-        res.redirect('/login');
-    }
-})
-
-
-app.get("/login", showLogin)
-
-app.post("/login", traiteLogin)
-
-app.get("/register", showRegister)
-
-app.post("/register", traiteRegister)
-
-app.get("/logout", traiteLogout)
+app.use('/', logRoutes)
+app.use('/user',userRoutes)
+app.use('/register',registerRoutes)
 
 app.use((req,res)=>{
     res.status(404).render('404', {title: '404'});
 })
 
+// Listen
 app.listen(port,()=>{
     console.log("Listen to http://localhost:3000");
 })
