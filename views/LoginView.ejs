@@ -3,6 +3,10 @@
 <body>
     <%- include('./partials/nav.ejs'); %>
 
+    <% if(typeof messageError != 'undefined') { %>
+    <%= messageError %>
+    <% } %>
+
     <main>
         <form method='post' action='/login'>
             <label for='nom'>Nom : </label>

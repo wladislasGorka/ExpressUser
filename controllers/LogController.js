@@ -15,7 +15,7 @@ function traiteLogin(req, res){
         function (err,row){
             if(err){
                 console.error('login échoué: ',err.message);
-                res.send("ERROR");
+                res.render('LoginView', {title: 'Login',loggedIn: req.session.loggedIn, messageError: 'Erreur connexion: username incorrect'});
             }else{
                 if(row){
                     bcrypt.compare(password,row.password, (err,result)=>{
@@ -32,12 +32,13 @@ function traiteLogin(req, res){
                             res.redirect(`/user`);
                         } else {
                             console.log('Mot de passe incorrect');
-                            res.send("Mot de passe incorrect");
+                            //res.send("Mot de passe incorrect");
+                            res.render('LoginView', {title: 'Login',loggedIn: req.session.loggedIn, messageError: 'Erreur connexion: mot de passe incorrect'});
                         }
                     })
                 }else{
                     console.log(row);
-                    res.send("Register fisrt");
+                    res.render('LoginView', {title: 'Login',loggedIn: req.session.loggedIn, messageError: 'Erreur connexion: username incorrect'});
                 }                
             }
         }
