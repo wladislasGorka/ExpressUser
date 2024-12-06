@@ -35,3 +35,9 @@ form{
 input{
     margin-bottom: 1rem;
 }
+
+p.error{
+    width: fit-content;
+    margin-inline: auto;
+    color: red;
+}
