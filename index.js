@@ -1,6 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 
+const app = express();
+const port = 3000;
+
 const bodyParser = require('body-parser');
 
 // Routes
@@ -8,8 +11,6 @@ const registerRoutes = require('./routes/registerRoutes');
 const logRoutes = require('./routes/logRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-const app = express();
-const port = 3000;
 
 // View engine
 app.set('view engine','ejs');
