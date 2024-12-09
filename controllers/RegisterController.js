@@ -33,10 +33,10 @@ function traiteRegister(req, res){
                         res.send("ERROR");
                         return;
                     }
-                    const newUser = new User(nom,hashedPassword);
+                    const newUser = new User(nom,hashedPassword,'ROLE_USER');
                     //console.log(newUser);
-                    const query = 'INSERT INTO users (username,password) VALUES (?, ?)';
-                    db.run(query,[newUser.name,newUser.password], 
+                    const query = 'INSERT INTO users (username,password,role) VALUES (?, ?, ?)';
+                    db.run(query,[newUser.name,newUser.password,newUser.role], 
                         function (err){
                             if(err){
                                 console.error('register échoué: ',err.message);

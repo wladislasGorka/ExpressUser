@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const db = require("../db/db");
 
-function showUser(req, res){
+function showAdmin(req, res){
     const userId = req.params.id;
     const query = 'SELECT * FROM users WHERE id=?';
     db.get(query,[userId],function (err,row){
@@ -21,4 +21,4 @@ function showUser(req, res){
     
 }
 
-module.exports={showUser};
+module.exports={showAdmin};

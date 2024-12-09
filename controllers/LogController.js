@@ -25,11 +25,17 @@ function traiteLogin(req, res){
                         } else if (result) {
                             console.log('Connexion réussie:', row);
                             req.session.userId = row.id;
+                            req.session.role = row.role;
                             req.session.loggedIn = true;
                             res.locals.loggedIn = req.session.loggedIn;
                             //console.log(res.locals.loggedIn);
                             //console.log(req.session);
-                            res.redirect(`/user`);
+                            if(row.role=='ROLE_ADMIN'){
+                                res.redirect(`/admin`);
+                            }else{
+                                res.redirect(`/user`);
+                            }
+                            
                         } else {
                             console.log('Mot de passe incorrect');
                             //res.send("Mot de passe incorrect");
