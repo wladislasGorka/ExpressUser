@@ -74,12 +74,12 @@ function roleUpdate(req, res) {
 }
 function userDelete(req, res) {
     const user = req.body.username;
-    const query = 'DELETE FROM users WHERE unsername = ?';
+    const query = 'DELETE FROM users WHERE username = ?';
     db.run(query, [user], (err) => {
         if (err) {
             throw err;
         }
-        showALL(req,res)
+        showALL(req, res);
     } )
 }
 
