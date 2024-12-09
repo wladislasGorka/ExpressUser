@@ -1,5 +1,5 @@
 const express = require('express');
-const {showAdmin} = require('../controllers/AdminController');
+const {showAdmin,showUsers,showAdmins} = require('../controllers/AdminController');
 
 const router = express.Router();
 
@@ -15,6 +15,25 @@ router.get("/:id", (req,res)=>{
         showAdmin(req,res);
     }else if(req.session.loggedIn){
         res.redirect(`/admin/${req.session.userId}`);
+    }else{
+        res.redirect('/login');
+    }
+})
+
+router.get("/:id/users", (req,res)=>{
+    if(req.session.loggedIn && req.session.userId==req.params.id){
+        showUsers(req,res);
+    }else if(req.session.loggedIn){
+        res.redirect(`/admin/${req.session.userId}/users`);
+    }else{
+        res.redirect('/login');
+    }
+})
+router.get("/:id/admins", (req,res)=>{
+    if(req.session.loggedIn && req.session.userId==req.params.id){
+        showAdmins(req,res);
+    }else if(req.session.loggedIn){
+        res.redirect(`/admin/${req.session.userId}/admins`);
     }else{
         res.redirect('/login');
     }
