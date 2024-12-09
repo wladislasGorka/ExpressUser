@@ -1,5 +1,5 @@
 const express = require('express');
-const {showAdmin,showUsers,showAdmins} = require('../controllers/AdminController');
+const {showAdmin,showUsers,showAdmins,showALL, roleUpdate, userDelete} = require('../controllers/AdminController');
 
 const router = express.Router();
 
@@ -38,5 +38,42 @@ router.get("/:id/admins", (req,res)=>{
         res.redirect('/login');
     }
 })
+router.post("/:id/admins", (req, res) => {
+    //console.log("requetPost")
+ if (req.session.loggedIn) {
+        roleUpdate(req, res);
+        //res.redirect(`/admin/${req.session.userId}/admins`);
+        
+    }else{
+        res.redirect('/login');
+    }
+})
+router.post("/:id/users", (req, res) => {
+    //console.log("requetPost")
+ if (req.session.loggedIn) {
+        roleUpdate(req, res);
+        //res.redirect(`/admin/${req.session.userId}/admins`);
+        
+    }else{
+        res.redirect('/login');
+    }
+})
+router.get("/:id/delete", (req,res)=>{
+ if(req.session.loggedIn){
+       showALL(req,res);
+    }else{
+        res.redirect('/login');
+    }
+})
 
+router.post("/:id/delete", (req, res) => {
+    //console.log("requetPost")
+ if (req.session.loggedIn) {
+        userDelete(req, res);
+        //res.redirect(`/admin/${req.session.userId}/admins`);
+        
+    }else{
+        res.redirect('/login');
+    }
+})
 module.exports = router;

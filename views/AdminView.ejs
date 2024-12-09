@@ -5,7 +5,8 @@
 
     <ul>
         <li><a href="/admin/:id/users">gestion users</a></li>
-        <li><a href="/admin/:id/admins">gestion suppression</a></li>
+        <li><a href="/admin/:id/admins">gestion </a></li>
+        <li><a href="/admin/:id/delete">suppression</a></li>
         <li><a href="/admin/:id/historique">historique</a></li>
     </ul>
 
@@ -15,8 +16,18 @@
         <% if(typeof action != 'undefined' && action=='gestionUsers'){ %>
             <ul>
             <% datas.forEach(data => { %>
-                <% console.log('data.username'); %>
-                <li><%= data.username %></li>
+                <% console.log('data.username'); %>  
+                
+                    <form action="/admin/:id/users" method="post">
+                    <li><%= data.username %></li>
+                    <li><input type="hidden" name="username" value=<%= data.username %>></li>
+                    <li><input type="radio" id="user_select" name=<%= data.username %> value="ROLE_USER" checked>
+                    <label for="user_select">user</label></li>
+                    <li><input type="radio" id="admin_select" name=<%= data.username %> value="ROLE_ADMIN">
+                    <label for="admin_select">admin</label></li>
+                    <li><input type="submit" value="valider"></li>
+                    </form>
+                
             <% }); %>
             </ul>
 
@@ -24,10 +35,33 @@
             <ul>
             <% datas.forEach(data => { %>
                 <% console.log('data.username'); %>
-                <li><%= data.username %></li>
+                
+                    <form action="/admin/:id/admins" method="post">
+                    <li><%= data.username %></li>
+                    <li><input type="hidden" name="username" value=<%= data.username %>></li>
+                    <li><input type="radio" id="user_select" name=<%= data.username %> value="ROLE_USER" >
+                    <label for="user_select">user</label></li>
+                    <li><input type="radio" id="admin_select" name=<%= data.username %> value="ROLE_ADMIN" checked>
+                    <label for="admin_select">admin</label></li>
+                    <li><input type="submit" value="valider"></li>
+                    </form>
+                
             <% }); %>
             </ul>
-
+        
+        <% }else if(typeof action != 'undefined' && action=='deleteUser'){ %>
+            <ul>
+            <% datas.forEach(data => { %>
+                <% console.log('data.username'); %>
+                
+                    <form action="/admin/:id/delete" method="post">
+                    <li><%= data.username %></li>
+                    <li><input type="hidden" name="username" value=<%= data.username %>></li>
+                    <li><input type="submit" value="valider"></li>
+                    </form>
+                
+            <% }); %>
+            </ul>
         <% } %>
     </main>
 
