@@ -26,7 +26,7 @@ footer{
     margin-inline: auto;
 }
 
-form{
+.form{
     display: grid;
     grid-template-columns: repeat(1,1fr);
     max-width: 20%;
@@ -40,4 +40,26 @@ p.error{
     width: fit-content;
     margin-inline: auto;
     color: red;
+}
+
+.nav{
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
+}
+.nav a{
+    color: #B6B6B6;
+}
+.userList{
+    padding-inline: 50px;
+    list-style-type: none;
+}
+.form-action{
+    border-bottom: 1px solid black;
+}
+.userInfos{
+    display: grid;
+    padding: 10px;
+    grid-template-columns: 1fr 0fr 0.2fr 0.5fr 0.2fr 0.5fr 0.2fr;
+    list-style-type: none;
 }

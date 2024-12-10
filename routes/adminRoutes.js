@@ -38,40 +38,37 @@ router.get("/:id/admins", (req,res)=>{
         res.redirect('/login');
     }
 })
-router.post("/:id/admins", (req, res) => {
-    //console.log("requetPost")
- if (req.session.loggedIn) {
-        roleUpdate(req, res);
-        //res.redirect(`/admin/${req.session.userId}/admins`);
-        
-    }else{
-        res.redirect('/login');
-    }
-})
-router.post("/:id/users", (req, res) => {
-    //console.log("requetPost")
- if (req.session.loggedIn) {
-        roleUpdate(req, res);
-        //res.redirect(`/admin/${req.session.userId}/admins`);
-        
-    }else{
-        res.redirect('/login');
-    }
-})
 router.get("/:id/delete", (req,res)=>{
- if(req.session.loggedIn){
+    if(req.session.loggedIn){
        showALL(req,res);
     }else{
         res.redirect('/login');
     }
 })
 
+router.post("/:id/users", (req, res) => {
+    if(req.session.loggedIn && req.session.userId==req.params.id){
+        roleUpdate(req,res);
+    }else if (req.session.loggedIn) {
+        res.redirect(307,`/admin/${req.session.userId}/users`);        
+    }else{
+        res.redirect('/login');
+    }
+})
+router.post("/:id/admins", (req, res) => {
+    if(req.session.loggedIn && req.session.userId==req.params.id){
+        roleUpdate(req,res);
+    }else if (req.session.loggedIn) {
+        res.redirect(307,`/admin/${req.session.userId}/admins`);        
+    }else{
+        res.redirect('/login');
+    }
+})
 router.post("/:id/delete", (req, res) => {
-    //console.log("requetPost")
- if (req.session.loggedIn) {
-        userDelete(req, res);
-        //res.redirect(`/admin/${req.session.userId}/admins`);
-        
+    if(req.session.loggedIn && req.session.userId==req.params.id){
+        userDelete(req,res);
+    }else if (req.session.loggedIn) {
+        res.redirect(307,`/admin/${req.session.userId}/delete`);
     }else{
         res.redirect('/login');
     }

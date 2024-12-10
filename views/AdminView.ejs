@@ -3,7 +3,7 @@
 <body>
     <%- include('./partials/nav.ejs'); %>
 
-    <ul>
+    <ul class="nav">
         <li><a href="/admin/:id/users">gestion users</a></li>
         <li><a href="/admin/:id/admins">gestion </a></li>
         <li><a href="/admin/:id/delete">suppression</a></li>
@@ -14,52 +14,55 @@
         <h1>Hello Master !</h1>
 
         <% if(typeof action != 'undefined' && action=='gestionUsers'){ %>
-            <ul>
+            <ul class="userList">
             <% datas.forEach(data => { %>
-                <% console.log('data.username'); %>  
-                
-                    <form action="/admin/:id/users" method="post">
+                <li>
+                <form class="form-action" action="/admin/:id/users" method="post">
+                    <ul class="userInfos">
                     <li><%= data.username %></li>
                     <li><input type="hidden" name="username" value=<%= data.username %>></li>
-                    <li><input type="radio" id="user_select" name=<%= data.username %> value="ROLE_USER" checked>
-                    <label for="user_select">user</label></li>
-                    <li><input type="radio" id="admin_select" name=<%= data.username %> value="ROLE_ADMIN">
-                    <label for="admin_select">admin</label></li>
+                    <li><input type="radio" id="user_select" name=<%= data.username %> value="ROLE_USER" checked></li>
+                    <li><label for="user_select">user</label></li>
+                    <li><input type="radio" id="admin_select" name=<%= data.username %> value="ROLE_ADMIN"></li>
+                    <li><label for="admin_select">admin</label></li>
                     <li><input type="submit" value="valider"></li>
-                    </form>
-                
+                    </ul>
+                </form> 
+                </li>               
             <% }); %>
             </ul>
 
         <% }else if(typeof action != 'undefined' && action=='gestionAdmins'){ %>
-            <ul>
+            <ul class="userList">
             <% datas.forEach(data => { %>
-                <% console.log('data.username'); %>
-                
-                    <form action="/admin/:id/admins" method="post">
+                <li>
+                <form class="form-action" action="/admin/:id/admins" method="post">
+                    <ul class="userInfos">
                     <li><%= data.username %></li>
                     <li><input type="hidden" name="username" value=<%= data.username %>></li>
-                    <li><input type="radio" id="user_select" name=<%= data.username %> value="ROLE_USER" >
-                    <label for="user_select">user</label></li>
-                    <li><input type="radio" id="admin_select" name=<%= data.username %> value="ROLE_ADMIN" checked>
-                    <label for="admin_select">admin</label></li>
+                    <li><input type="radio" id="user_select" name=<%= data.username %> value="ROLE_USER" ></li>
+                    <li><label for="user_select">user</label></li>
+                    <li><input type="radio" id="admin_select" name=<%= data.username %> value="ROLE_ADMIN" checked></li>
+                    <li><label for="admin_select">admin</label></li>
                     <li><input type="submit" value="valider"></li>
-                    </form>
-                
+                    </ul>
+                </form>
+                </li>
             <% }); %>
             </ul>
         
         <% }else if(typeof action != 'undefined' && action=='deleteUser'){ %>
-            <ul>
+            <ul class="userList">
             <% datas.forEach(data => { %>
-                <% console.log('data.username'); %>
-                
-                    <form action="/admin/:id/delete" method="post">
+                <li>
+                <form class="form-action" action="/admin/:id/delete" method="post">
+                    <ul class="userInfos">
                     <li><%= data.username %></li>
                     <li><input type="hidden" name="username" value=<%= data.username %>></li>
                     <li><input type="submit" value="valider"></li>
-                    </form>
-                
+                    </ul>
+                </form>
+                </li>                
             <% }); %>
             </ul>
         <% } %>
