@@ -33,6 +33,11 @@ app.use((req, res, next) => {
     }
     next();
 });
+// get username in all template
+app.use(function(req, res, next) {
+    res.locals.userName = req.session.userName;
+    next();
+});
 
 // HOME
 app.get("/", (req,res)=>{

@@ -3,8 +3,25 @@
 <body>
     <%- include('./partials/nav.ejs'); %>
 
+    <ul class="nav">
+        <li><a href="/user/:id/view">Mes annonces</a></li>
+        <li><a href="/user/:id/create">créer une annonce</a></li>
+        <li><a href="/user/:id/delete">supprimer une annonce</a></li>
+    </ul>
+
     <main>
-        <h1>Hello <%= user.name %></h1>
+        <h1>Hello <%= userName %></h1>
+        <% if(typeof action != 'undefined' && action=='view'){ %>
+            <p>mes annonces</p>
+        <% } %>
+
+        <% if(typeof action != 'undefined' && action=='create'){ %>
+            <p>création d'une annonce</p>
+        <% } %>
+
+        <% if(typeof action != 'undefined' && action=='delete'){ %>
+            <p>suppression d'annonces</p>
+        <% } %>
     </main>
 
     <%- include('./partials/footer.ejs'); %>

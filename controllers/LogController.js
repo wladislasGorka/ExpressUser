@@ -25,6 +25,7 @@ function traiteLogin(req, res){
                         } else if (result) {
                             console.log('Connexion réussie:', row);
                             req.session.userId = row.id;
+                            req.session.userName = row.username;
                             req.session.role = row.role;
                             req.session.loggedIn = true;
                             res.locals.loggedIn = req.session.loggedIn;

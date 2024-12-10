@@ -17,8 +17,19 @@ function showUser(req, res){
                 res.send('ERROR');
             }
         }
-    })
-    
+    })    
 }
 
-module.exports={showUser};
+function showAnnonces(req, res){
+    res.render('UserView', {title: 'User', loggedIn: req.session.loggedIn, action: 'view'});
+}
+
+function createAnnonces(req, res){
+    res.render('UserView', {title: 'User', loggedIn: req.session.loggedIn, action: 'create'});
+}
+
+function deleteAnnonces(req, res){
+    res.render('UserView', {title: 'User', loggedIn: req.session.loggedIn, action: 'delete'});
+}
+
+module.exports={showUser,showAnnonces,createAnnonces,deleteAnnonces};
