@@ -1,10 +1,12 @@
 const express = require('express');
-const {showLogin,traiteLogin,traiteLogout} = require('../controllers/LogController');
+const LogController = require('../controllers/LogController');
 
 const router = express.Router();
 
-router.get("/login", showLogin)
-router.post("/login", traiteLogin)
-router.get("/logout", traiteLogout)
+router.route("/login")
+    .get(LogController.showLogin)
+    .post(LogController.traiteLogin)
+router.route("/logout")
+    .get(LogController.traiteLogout)
 
 module.exports = router;
