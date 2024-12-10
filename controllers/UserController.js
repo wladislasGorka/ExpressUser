@@ -47,10 +47,8 @@ function deleteAnnoncesView(req, res){
 }
 
 function createAnnonces(req, res){
-    const {title,price,category,description} = req.body;
     const userName = req.session.userName;
-    const dateCreation = new Date();
-    const newAnnonce = new Annonce(userName,title,price,category,description,dateCreation);
+    const newAnnonce = new Annonce(userName,req.body);
     const query = "INSERT INTO annonces (userName,title,price,category,description,dateCreation,dateEnd,visibility) VALUES (?,?,?,?,?,?,?,?)";
     db.run(query,[newAnnonce.userName,newAnnonce.title,newAnnonce.price,newAnnonce.category,newAnnonce.description,newAnnonce.dateCreation,newAnnonce.dateEnd,newAnnonce.visibility],
         (err) =>{

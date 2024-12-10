@@ -4,8 +4,6 @@ const session = require('express-session');
 const app = express();
 const port = 3000;
 
-const bodyParser = require('body-parser');
-
 // Routes
 const homeController = require('./controllers/HomeController');
 const registerRoutes = require('./routes/registerRoutes');
@@ -13,12 +11,11 @@ const logRoutes = require('./routes/logRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
+app.use(express.urlencoded({extended:true}))
 
 // View engine
 app.set('view engine','ejs');
 app.use(express.static('public'));
-
-app.use(bodyParser.urlencoded({extended:true}))
 
 // Session config
 app.use(session({
@@ -34,6 +31,7 @@ app.use((req, res, next) => {
     }
     next();
 });
+
 // get username in all template
 app.use(function(req, res, next) {
     res.locals.userId = req.session.userId;
