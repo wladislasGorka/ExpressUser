@@ -4,7 +4,22 @@
     <%- include('./partials/nav.ejs'); %>
 
     <main>
-        <h1>Hello!</h1>
+        <h1>Les petites annonces : </h1>        
+            <% if(typeof result != 'undefined' && result==true){ %>
+                <div class="container">
+                <% datas.forEach(data => { %>
+                    <articles>
+                        <h2><%= data.title %></h2>
+                        <p><%= data.userName %></p>
+                        <p><%= data.price %> PO</p>
+                        <p><%= data.category %></p>
+                        <p><%= data.description %></p>
+                    </articles>
+                <% }); %>
+                </div>
+            <% }else { %>
+                <p class="result">Oups, le site est vide...</p>
+            <% } %>
     </main>
 
     <%- include('./partials/footer.ejs'); %>

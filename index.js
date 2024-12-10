@@ -7,6 +7,7 @@ const port = 3000;
 const bodyParser = require('body-parser');
 
 // Routes
+const homeController = require('./controllers/HomeController');
 const registerRoutes = require('./routes/registerRoutes');
 const logRoutes = require('./routes/logRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -41,10 +42,8 @@ app.use(function(req, res, next) {
 });
 
 // HOME
-app.get("/", (req,res)=>{
-    //res.send('Hello');
-    res.render('index', {title: 'Home', loggedIn: req.session.loggedIn});
-})
+app.get("/", homeController.showAnnonces)
+//res.render('index', {title: 'Home', loggedIn: req.session.loggedIn});
 
 app.use('/', logRoutes)
 app.use('/user',userRoutes)
