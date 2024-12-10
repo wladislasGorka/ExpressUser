@@ -8,13 +8,15 @@
             <% if(typeof result != 'undefined' && result==true){ %>
                 <div class="container">
                 <% datas.forEach(data => { %>
-                    <articles>
-                        <h2><%= data.title %></h2>
-                        <p><%= data.userName %></p>
-                        <p><%= data.price %> PO</p>
-                        <p><%= data.category %></p>
-                        <p><%= data.description %></p>
+                    <a href="annonce/<%= data.id %>">
+                    <articles class="annonce">
+                        <h2 class="annonceItem-1"><%= data.title %></h2>
+                        <p class="annonceItem-2"><%= data.userName %></p>
+                        <p class="annonceItem-3"><%= data.price %> PO</p>
+                        <p class="annonceItem-4"><%= data.category %></p>
+                        <p class="annonceItem-5"><%= data.description %></p>
                     </articles>
+                    </a>
                 <% }); %>
                 </div>
             <% }else { %>

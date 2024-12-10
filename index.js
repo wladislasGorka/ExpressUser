@@ -10,6 +10,7 @@ const registerRoutes = require('./routes/registerRoutes');
 const logRoutes = require('./routes/logRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const annonceRoutes = require('./routes/annonceRoutes')
 
 app.use(express.urlencoded({extended:true}))
 
@@ -47,6 +48,7 @@ app.use('/', logRoutes)
 app.use('/user',userRoutes)
 app.use('/register',registerRoutes)
 app.use('/admin',adminRoutes)
+app.use('/annonce',annonceRoutes)
 
 app.use((req,res)=>{
     res.status(404).render('404', {title: '404'});

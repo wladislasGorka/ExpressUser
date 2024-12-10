@@ -1,0 +1,26 @@
+<html lang="en">
+    <%- include('./partials/head.ejs'); %>
+<body>
+    <%- include('./partials/nav.ejs'); %>
+
+    <main>
+        <h1>Détail de l'annonce : </h1>        
+            <% if(typeof annonce != 'undefined'){ %>                
+                    <articles class="annonce">
+                        <h2 class="annonceItem-1"><%= annonce.title %></h2>
+                        <p class="annonceItem-2"><%= annonce.userName %></p>
+                        <p class="annonceItem-3"><%= annonce.price %> PO</p>
+                        <p class="annonceItem-4"><%= annonce.category %></p>
+                        <p class="annonceItem-5"><%= annonce.description %></p>
+                    </articles>  
+                    
+                    <a href="/">Retour</a>
+            <% }else { %>
+                <p class="result">Oups, annonce introuvable...</p>
+                <a href="/">Retour</a>
+            <% } %>
+    </main>
+
+    <%- include('./partials/footer.ejs'); %>
+</body>
+</html>
