@@ -1,13 +1,13 @@
 class Annonce{
-    constructor(userId,name,price,category,description,dateCreation,visibility){
-        this.userId=userId;
-        this.name=name;
+    constructor(userName,title,price,category,description,dateCreation){
+        this.userName=userName;
+        this.title=title;
         this.price=price;
         this.category=category;
         this.description=description;
         this.dateCreation=dateCreation;
-        this.dateEnd=NULL;
-        this.visibility=visibility;
+        this.dateEnd=null;
+        this.visibility=true;
     }
 }
 

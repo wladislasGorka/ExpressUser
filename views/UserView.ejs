@@ -12,11 +12,44 @@
     <main>
         <h1>Hello <%= userName %></h1>
         <% if(typeof action != 'undefined' && action=='view'){ %>
-            <p>mes annonces</p>
+            <h2>Mes annonces</h2>
+            <% if(typeof result != 'undefined' && result==true){ %>
+                <div class="container">
+                <% datas.forEach(data => { %>
+                    <articles>
+                        <h2><%= data.nom %></h2>
+                        <p><%= data.price %></p>
+                        <p><%= data.userId %></p>
+                        <p><%= data.category %></p>
+                        <p><%= data.description %></p>
+                    </articles>
+                <% }); %>
+                </div>
+            <% }else { %>
+                <p class="result">Vous n'avez pas encore d'annonce.</p>
+            <% } %>
         <% } %>
 
         <% if(typeof action != 'undefined' && action=='create'){ %>
-            <p>création d'une annonce</p>
+            <h2>Création d'une annonce</h2>
+            <% if(typeof result != 'undefined' && result==true){ %>
+                <p class="result">L'annonce a été créée.</p>
+            <% } %>
+            <form class="form" method="post" >
+                <label for="title">Titre de l'annonce : </label>
+                <input type="text" name="title" id="title">
+                <label for="price">Tarif : </label>
+                <input type="number" name="price" id="price">
+                <label for="category">Catégorie de l'annonce : </label>
+                <select name="category" id="category">
+                    <option value="Divers">Divers</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Sport">Sport</option>                    
+                </select>
+                <label for="description">Description de l'annonce : </label>
+                <textarea name="description" id="description"></textarea>
+                <input type="submit" value="Publier">
+            </form>
         <% } %>
 
         <% if(typeof action != 'undefined' && action=='delete'){ %>

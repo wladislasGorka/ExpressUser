@@ -35,6 +35,7 @@ app.use((req, res, next) => {
 });
 // get username in all template
 app.use(function(req, res, next) {
+    res.locals.userId = req.session.userId;
     res.locals.userName = req.session.userName;
     next();
 });
