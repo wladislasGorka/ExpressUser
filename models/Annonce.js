@@ -5,7 +5,7 @@ class Annonce{
         this.price=price;
         this.category=category;
         this.description=description;
-        this.dateCreation= new Date();
+        this.dateCreation= new Date().toDateString();
         this.dateEnd=null;
         this.visibility=true;
     }

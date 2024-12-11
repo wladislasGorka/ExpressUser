@@ -5,7 +5,7 @@
 
     <main>
         <h1>Les petites annonces : </h1>        
-            <% if(typeof result != 'undefined' && result==true){ %>
+            <% if(typeof datas != 'undefined'){ %>
                 <div class="container">
                 <% datas.forEach(data => { %>
                     <a href="annonce/<%= data.id %>">

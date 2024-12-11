@@ -2,11 +2,15 @@
     <h1>Formenscop</h1>
     <ul>
         <li><a href="/">home</a></li>
-        <% if(typeof loggedIn == 'undefined' || !loggedIn){ %>
+        <% if(loggedIn == 'undefined' || !loggedIn){ %>
         <li><a href="/register">register</a></li>
         <li><a href="/login">login</a></li>
+        <% }else if(role=="ROLE_ADMIN"){ %>
+        <li><a href="/admin">Profil</a></li>
+        <li><a href="/logout">Logout</a></li>
         <% }else{ %>
         <li><a href="/user">Profil</a></li>
+        <li><a href="/panier">Panier</a></li>
         <li><a href="/logout">Logout</a></li>
         <% } %>
     </ul>

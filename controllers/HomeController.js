@@ -9,9 +9,9 @@ function showAnnonces(req, res){
             throw err;
         }
         if(rows){
-            res.render('index', {title: 'Home', loggedIn: req.session.loggedIn, result: true, datas: rows});
+            res.render('index', {title: 'Home', loggedIn: req.session.loggedIn, datas: rows});
         }else{
-            res.render('index', {title: 'Home', loggedIn: req.session.loggedIn, result: false});
+            res.render('index', {title: 'Home', loggedIn: req.session.loggedIn});
         }
     });
     

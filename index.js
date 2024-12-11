@@ -11,6 +11,7 @@ const logRoutes = require('./routes/logRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const annonceRoutes = require('./routes/annonceRoutes')
+const panierRoutes = require('./routes/panierRoutes')
 
 app.use(express.urlencoded({extended:true}))
 
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 app.use(function(req, res, next) {
     res.locals.userId = req.session.userId;
     res.locals.userName = req.session.userName;
+    res.locals.role = req.session.role;
     next();
 });
 
@@ -49,6 +51,7 @@ app.use('/user',userRoutes)
 app.use('/register',registerRoutes)
 app.use('/admin',adminRoutes)
 app.use('/annonce',annonceRoutes)
+app.use('/panier',panierRoutes)
 
 app.use((req,res)=>{
     res.status(404).render('404', {title: '404'});
