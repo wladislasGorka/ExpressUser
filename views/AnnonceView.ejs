@@ -12,11 +12,10 @@
                         <p class="annonceItem-3"><%= annonce.price %> PO</p>
                         <p class="annonceItem-4"><%= annonce.category %></p>
                         <p class="annonceItem-5"><%= annonce.description %></p>
-                        <% console.log('dansPanier: '+dansPanier) %>
                         <% if(dansPanier===true){ %>
-                            <button type="button" id="modifPanier" data-doc="<%= annonce.id %>" data-in="<%= dansPanier %>">retirer du panier</button>
+                            <button class="annonceItem-6" type="button" id="modifPanier" data-doc="<%= annonce.id %>" data-in="<%= dansPanier %>">retirer du panier</button>
                         <% }else{ %>
-                            <button type="button" id="modifPanier" data-doc="<%= annonce.id %>" data-in="<%= dansPanier %>">ajouter dans panier</button>
+                            <button class="annonceItem-6" type="button" id="modifPanier" data-doc="<%= annonce.id %>" data-in="<%= dansPanier %>">ajouter dans panier</button>
                         <% } %>
                     </articles>  
                     

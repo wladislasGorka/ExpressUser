@@ -15,6 +15,13 @@
                         <p class="annonceItem-3"><%= data.price %> PO</p>
                         <p class="annonceItem-4"><%= data.category %></p>
                         <p class="annonceItem-5"><%= data.description %></p>
+                        <% if(typeof loggedIn != 'undefined' && loggedIn){ %>
+                            <% if(data.userId){ %>
+                                <button class="annonceItem-6" type="button" id="modifPanier" data-doc="<%= data.id %>" data-in="<%= data.userId %>">retirer du panier</button>
+                            <% }else{ %>
+                                <button class="annonceItem-6" type="button" id="modifPanier" data-doc="<%= data.id %>" data-in="<%= data.userId %>">ajouter dans panier</button>
+                            <% } %>
+                        <% } %>
                     </articles>
                     </a>
                 <% }); %>
@@ -23,6 +30,30 @@
                 <p class="result">Oups, le site est vide...</p>
             <% } %>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('modifPanier');
+            if(button){
+                button.addEventListener('click', async (e) => {
+                    let response;
+                    if (button.dataset.in!="NULL") {
+                        response = await fetch(`/panier/modif/${button.dataset.doc}`, { method: 'DELETE' });
+                        if (response.ok) {
+                            button.dataset.in = "false";
+                            button.textContent = "ajouter dans panier";
+                        }
+                    } else {
+                        response = await fetch(`/panier/modif/${button.dataset.doc}`, { method: 'POST' });
+                        if (response.ok) {
+                            button.dataset.in = "true";
+                            button.textContent = "retirer du panier";
+                        }
+                    }
+                });
+            }
+        })
+    </script>
 
     <%- include('./partials/footer.ejs'); %>
 </body>
