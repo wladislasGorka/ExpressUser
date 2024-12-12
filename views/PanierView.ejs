@@ -4,8 +4,42 @@
     <%- include('./partials/nav.ejs'); %>
 
     <main>
-        <h1>Mon panier : </h1>        
+        <h1>Mon panier : </h1>     
+        <% console.log(datas); %>
+        <% if(typeof datas != 'undefined'){ %>
+            <div class="container">
+            <% datas.forEach(data => { %>
+                <articles class="annonce">
+                    <h2 class="annonceItem-1"><%= data.title %></h2>
+                    <p class="annonceItem-2"><%= data.userName %></p>
+                    <p class="annonceItem-3"><%= data.price %> PO</p>
+                    <p class="annonceItem-4"><%= data.category %></p>
+                    <p class="annonceItem-5"><%= data.description %></p>
+                    <button class="annonceItem-6 modifPanier" type="button" data-doc="<%= data.id %>">retirer du panier</button>
+                </articles>
+            <% }); %>
+            </div>
+        <% }else { %>
+            <p class="result">Oups, le panier est vide...</p>
+        <% } %>   
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.getElementsByClassName('modifPanier');
+            if(buttons){
+                for(const button of buttons){
+                    button.addEventListener('click', async (e) => {
+                        let response;
+                        response = await fetch(`/panier/${button.dataset.doc}`, { method: 'DELETE' });
+                        if (response.ok) {
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        })
+    </script>
 
     <%- include('./partials/footer.ejs'); %>
 </body>

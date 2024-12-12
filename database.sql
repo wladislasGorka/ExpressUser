@@ -1,1 +1,1 @@
-SELECT * FROM annonces LEFT JOIN paniers ON annonces.id=paniers.annonceId WHERE id=2 AND paniers.userId=10;
+SELECT * FROM annonces JOIN paniers ON paniers.annonceId=id WHERE userId=10

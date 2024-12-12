@@ -1,5 +1,22 @@
 const db = require("../db/db");
 
+function showPanier(req,res){
+    const userId = req.session.userId;
+    const query = "SELECT * FROM annonces JOIN paniers ON paniers.annonceId=id WHERE userId=?";
+    db.all(query,[userId],(err,rows)=>{
+        if(err){
+            console.error('Erreur: showPanier');
+            throw err;
+        }
+        if(rows){
+            console.log('affichage panier');
+            res.render('PanierView', {title: 'Panier', loggedIn: req.session.loggedIn, datas: rows});
+        }else{
+            res.render('PanierView', {title: 'Panier', loggedIn: req.session.loggedIn});
+        }
+    })
+}
+
 function addPanier(req, res){
     const annonceId = req.params.id;
     const userId = req.session.userId;
@@ -26,7 +43,7 @@ function addPanier(req, res){
     })    
 }
 
-function deletePanier(req,res){
+function deletePanierItem(req,res){
     const annonceId = req.params.id;
     const userId = req.session.userId;
     let query = 'DELETE FROM paniers WHERE userId=? AND annonceId=?';
@@ -39,5 +56,17 @@ function deletePanier(req,res){
     })
     res.redirect(303,`/annonce/${annonceId}`);
 }
+function deleteFromPanier(req,res){
+    const annonceId = req.params.id;
+    const userId = req.session.userId;
+    let query = 'DELETE FROM paniers WHERE userId=? AND annonceId=?';
+    db.run(query,[userId,annonceId],(err)=>{
+        if(err){
+            console.error('Erreur: addPanier verif');
+            throw err;
+        }
+        console.log('retrait de l\'annonce');
+    })
+}
 
-module.exports = {addPanier,deletePanier};
+module.exports = {showPanier,addPanier,deletePanierItem,deleteFromPanier};
