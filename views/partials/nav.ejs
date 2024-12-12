@@ -2,7 +2,7 @@
     <h1>Formenscop</h1>
     <ul>
         <li><a href="/">home</a></li>
-        <% if(loggedIn == 'undefined' || !loggedIn){ %>
+        <% if(typeof loggedIn == 'undefined' || !loggedIn){ %>
         <li><a href="/register">register</a></li>
         <li><a href="/login">login</a></li>
         <% }else if(role=="ROLE_ADMIN"){ %>

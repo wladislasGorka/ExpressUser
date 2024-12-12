@@ -12,6 +12,12 @@
                         <p class="annonceItem-3"><%= annonce.price %> PO</p>
                         <p class="annonceItem-4"><%= annonce.category %></p>
                         <p class="annonceItem-5"><%= annonce.description %></p>
+                        <% console.log('dansPanier: '+dansPanier) %>
+                        <% if(dansPanier===true){ %>
+                            <button type="button" id="modifPanier" data-doc="<%= annonce.id %>" data-in="<%= dansPanier %>">retirer du panier</button>
+                        <% }else{ %>
+                            <button type="button" id="modifPanier" data-doc="<%= annonce.id %>" data-in="<%= dansPanier %>">ajouter dans panier</button>
+                        <% } %>
                     </articles>  
                     
                     <a href="/">Retour</a>
@@ -20,6 +26,28 @@
                 <a href="/">Retour</a>
             <% } %>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('modifPanier');
+            button.addEventListener('click', async (e) => {
+                let response;
+                if (button.dataset.in === "true") {
+                    response = await fetch(`/panier/modif/${button.dataset.doc}`, { method: 'DELETE' });
+                    if (response.ok) {
+                        button.dataset.in = "false";
+                        button.textContent = "ajouter dans panier";
+                    }
+                } else {
+                    response = await fetch(`/panier/modif/${button.dataset.doc}`, { method: 'POST' });
+                    if (response.ok) {
+                        button.dataset.in = "true";
+                        button.textContent = "retirer du panier";
+                    }
+                }
+            });
+        })
+    </script>
 
     <%- include('./partials/footer.ejs'); %>
 </body>

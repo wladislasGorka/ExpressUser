@@ -32,6 +32,8 @@ footer{
     grid-template-columns: repeat(1,1fr);
     max-width: 20%;
     margin-inline: auto;
+    border: 1px solid black;
+    box-shadow: 5px 5px 5px black;
 }
 input{
     margin-bottom: 1rem;

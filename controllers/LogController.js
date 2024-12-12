@@ -23,7 +23,7 @@ function traiteLogin(req, res){
                             console.error('Erreur de comparaison:', err.message);
                             res.send("ERROR");
                         } else if (result) {
-                            console.log('Connexion réussie:', row);
+                            console.log('Login successful');
                             req.session.userId = row.id;
                             req.session.userName = row.username;
                             req.session.role = row.role;
@@ -44,7 +44,7 @@ function traiteLogin(req, res){
                         }
                     })
                 }else{
-                    console.log(row);
+                    //console.log(row);
                     res.render('LoginView', {title: 'Login',loggedIn: req.session.loggedIn, messageError: 'Erreur connexion: username incorrect'});
                 }                
             }
