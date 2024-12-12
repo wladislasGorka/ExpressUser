@@ -66,6 +66,7 @@ function deleteFromPanier(req,res){
             throw err;
         }
         console.log('retrait de l\'annonce');
+        showPanier(req,res);
     })
 }
 
