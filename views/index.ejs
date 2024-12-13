@@ -4,35 +4,50 @@
     <%- include('./partials/nav.ejs'); %>
 
     <main>
-        <h1>Les petites annonces : </h1>        
-            <% if(typeof datas != 'undefined'){ %>
-                <div class="container">
-                <% datas.forEach(data => { %>
-                    <articles class="annonce">
-                        <a class="annonceItem-1" href="annonce/<%= data.id %>">
-                        <h2><%= data.title %></h2>
-                        </a>
-                        <p class="annonceItem-2"><%= data.userName %></p>
-                        <p class="annonceItem-3"><%= data.price %> PO</p>
-                        <p class="annonceItem-4"><%= data.category %></p>
-                        <p class="annonceItem-5"><%= data.description %></p>
-                        <% if(typeof loggedIn != 'undefined' && loggedIn){ %>
-                            <% data.userId===null?data.userId="false":data.userId="true"; %>
-                            <% if(data.userId==="true"){ %>
-                                <button class="annonceItem-6 modifPanier" type="button" data-doc="<%= data.id %>" data-in="<%= data.userId %>">retirer du panier</button>
-                            <% }else{ %>
-                                <button class="annonceItem-6 modifPanier" type="button" data-doc="<%= data.id %>" data-in="<%= data.userId %>">ajouter dans panier</button>
-                            <% } %>
+        <h1>Les petites annonces : </h1>   
+        
+        <label for="filtre">Filtre : </label>
+        <select id="filtre" name="filtre" onchange="annonceFilter()">
+            <option value="all">All</option>
+            <option value="Tech">TECH</option>
+            <option value="Sport">SPORT</option>
+        </select>
+        
+        <% if(typeof datas != 'undefined'){ %>
+            <% console.log(datas) %>
+            <div class="container">
+            <% datas.forEach(data => { %>
+                <articles class="annonce">
+                    <a class="annonceItem-1" href="annonce/<%= data.id %>">
+                    <h2><%= data.title %></h2>
+                    </a>
+                    <p class="annonceItem-2"><%= data.userName %></p>
+                    <p class="annonceItem-3"><%= data.price %> PO</p>
+                    <p class="annonceItem-4"><%= data.category %></p>
+                    <p class="annonceItem-5"><%= data.description %></p>
+                    <% if(typeof loggedIn != 'undefined' && loggedIn){ %>
+                        <% data.userId===null?data.userId="false":data.userId="true"; %>
+                        <% if(data.userId==="true"){ %>
+                            <button class="annonceItem-6 modifPanier" type="button" data-doc="<%= data.id %>" data-in="<%= data.userId %>">retirer du panier</button>
+                        <% }else{ %>
+                            <button class="annonceItem-6 modifPanier" type="button" data-doc="<%= data.id %>" data-in="<%= data.userId %>">ajouter dans panier</button>
                         <% } %>
-                    </articles>
-                <% }); %>
-                </div>
-            <% }else { %>
-                <p class="result">Oups, le site est vide...</p>
-            <% } %>
+                    <% } %>
+                </articles>
+            <% }); %>
+            </div>
+        <% }else { %>
+            <p class="result">Oups, le site est vide...</p>
+        <% } %>
     </main>
 
     <script>
+        function annonceFilter(){
+            const filtre = document.getElementById('filtre').value;
+            console.log(filtre);
+            fetch(`/home/${filtre}`, { method: 'GET' });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const buttons = document.getElementsByClassName('modifPanier');
             if(buttons){

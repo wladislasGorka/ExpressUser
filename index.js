@@ -5,7 +5,7 @@ const app = express();
 const port = 3000;
 
 // Routes
-const homeController = require('./controllers/HomeController');
+const homeRoutes = require('./routes/homeRoutes');
 const registerRoutes = require('./routes/registerRoutes');
 const logRoutes = require('./routes/logRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -42,10 +42,8 @@ app.use(function(req, res, next) {
     next();
 });
 
-// HOME
-app.get("/", homeController.showAnnonces)
-//res.render('index', {title: 'Home', loggedIn: req.session.loggedIn});
 
+app.use("/home", homeRoutes)
 app.use('/', logRoutes)
 app.use('/user',userRoutes)
 app.use('/register',registerRoutes)
