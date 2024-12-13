@@ -1,23 +1,10 @@
 const db = require("../db/db");
 
-function checkdansPanier(userId,annonceId){
-    return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM paniers WHERE userId=? AND annonceId=?';
-        db.get(query, [userId, annonceId], (err, row) => {
-            if (err) {
-                console.error('Erreur showAnnonce');
-                return reject(err);
-            }
-            if (row) {
-                return resolve(true);
-            }
-            return resolve(false);
-        });
-    });
-}
 function showAnnonces(req, res){
-    const query = "SELECT * FROM annonces";
-    db.all(query,[],(err,rows) => {
+    const userId = req.session.userId;
+    // la requete permet d'avoir toutes les annonces avec une valeur userId=null si pas dans le panier
+    const query = "SELECT * FROM annonces LEFT JOIN paniers ON paniers.annonceId=id AND userId=?;";
+    db.all(query,[userId],(err,rows) => {
         if(err){
             console.error('Erreur: showAnnoncesView request');
             throw err;
@@ -41,9 +28,9 @@ function showAnnoncesFiltre(req, res){
                 throw err;
             }
             if(rows){
-                res.render('index', {title: 'Home', loggedIn: req.session.loggedIn, datas: rows});
+                res.send(rows);
             }else{
-                res.render('index', {title: 'Home', loggedIn: req.session.loggedIn});
+                res.send([]);
             }
         });
     }else{
@@ -54,9 +41,9 @@ function showAnnoncesFiltre(req, res){
                 throw err;
             }
             if(rows){
-                res.render('index', {title: 'Home', loggedIn: req.session.loggedIn, datas: rows});
+                res.send(rows);
             }else{
-                res.render('index', {title: 'Home', loggedIn: req.session.loggedIn});
+                res.send([]);
             }
         });
     }
