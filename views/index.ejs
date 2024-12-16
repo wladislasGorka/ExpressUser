@@ -25,9 +25,7 @@
                     <p class="annonceItem-4"><%= data.category %></p>
                     <p class="annonceItem-5"><%= data.description %></p>
                     <% if(typeof loggedIn != 'undefined' && loggedIn){ %>
-                        <% console.log(data) %>
                         <% data.userId===null?data.userId="false":data.userId="true"; %>
-                        <% console.log(data.userId) %>
                         <% if(data.userId==="true"){ %>
                             <button class="annonceItem-6 modifPanier" type="button" data-doc="<%= data.id %>" data-in="<%= data.userId %>">retirer du panier</button>
                         <% }else{ %>
@@ -65,6 +63,14 @@
                             <p class="annonceItem-4">${data.category}</p>
                             <p class="annonceItem-5">${data.description}</p>
                             `;
+
+                        let btn;
+                        if(data.userId!=null){
+                            btn= `<button class="annonceItem-6 modifPanier" type="button" data-doc="${data.id}" data-in="${data.userId}">retirer du panier</button>`;
+                        }else{
+                            btn= `<button class="annonceItem-6 modifPanier" type="button" data-doc="${data.id}" data-in="${data.userId}">ajouter dans panier</button>`;
+                        }
+                        article.innerHTML += btn;
 
                         container.appendChild(article);
                     });

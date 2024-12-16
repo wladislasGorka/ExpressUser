@@ -19,10 +19,12 @@ function showAnnonces(req, res){
 function showAnnoncesFiltre(req, res){
     console.log('filtrage');
     const filtre = req.params.filtre;
+    const userId = req.session.userId;
     let query;
     if(filtre==="all"){
-        query = "SELECT * FROM annonces";
-        db.all(query,[],(err,rows) => {
+        // la requete permet d'avoir toutes les annonces avec une valeur userId=null si pas dans le panier
+        query = "SELECT * FROM annonces LEFT JOIN paniers ON paniers.annonceId=id AND userId=?;";
+        db.all(query,[userId],(err,rows) => {
             if(err){
                 console.error('Erreur: showAnnoncesView request');
                 throw err;
@@ -34,8 +36,9 @@ function showAnnoncesFiltre(req, res){
             }
         });
     }else{
-        query = "SELECT * FROM annonces WHERE category=?";
-        db.all(query,[filtre],(err,rows) => {
+        // la requete permet d'avoir toutes les annonces avec une valeur userId=null si pas dans le panier
+        query = "SELECT * FROM annonces LEFT JOIN paniers ON paniers.annonceId=id AND userId=? WHERE category=?;";
+        db.all(query,[userId,filtre],(err,rows) => {
             if(err){
                 console.error('Erreur: showAnnoncesView request');
                 throw err;

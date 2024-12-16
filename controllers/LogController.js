@@ -59,7 +59,10 @@ function traiteLogout(req, res){
             } else {
               console.log('Logout successful');
               //res.render('index', {title: 'Home'});
-              res.redirect(`/`);
+              res.clearCookie('connect.sid');
+              res.clearCookie('uniqueSessionID');
+              res.clearCookie('users');
+              res.redirect(`/login`);
             }
         });
     }

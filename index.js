@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const port = 3000;
@@ -10,8 +11,11 @@ const registerRoutes = require('./routes/registerRoutes');
 const logRoutes = require('./routes/logRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const annonceRoutes = require('./routes/annonceRoutes')
-const panierRoutes = require('./routes/panierRoutes')
+const annonceRoutes = require('./routes/annonceRoutes');
+const panierRoutes = require('./routes/panierRoutes');
+
+//Middlewares
+const logMiddleware = require('./middlewares/LogMiddleware');
 
 app.use(express.urlencoded({extended:true}))
 
@@ -21,10 +25,11 @@ app.use(express.static('public'));
 
 // Session config
 app.use(session({
+    genid: (req) => {return uuidv4()},
     secret: 'secret_de_session',
     name:'uniqueSessionID',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: { secure: false }
 }));
 app.use((req, res, next) => {
@@ -33,6 +38,14 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+//cache
+app.use((req,res,next)=>{
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+})
 
 // get username in all template
 app.use(function(req, res, next) {
@@ -43,13 +56,13 @@ app.use(function(req, res, next) {
 });
 
 
-app.use("/home", homeRoutes)
-app.use('/', logRoutes)
-app.use('/user',userRoutes)
+app.use("/home",homeRoutes)
+app.use('/',logRoutes)
+app.use('/user',logMiddleware,userRoutes)
 app.use('/register',registerRoutes)
-app.use('/admin',adminRoutes)
+app.use('/admin',logMiddleware,adminRoutes)
 app.use('/annonce',annonceRoutes)
-app.use('/panier',panierRoutes)
+app.use('/panier',logMiddleware,panierRoutes)
 
 app.use((req,res)=>{
     res.status(404).render('404', {title: '404'});
